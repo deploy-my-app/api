@@ -1,3 +1,0 @@
-"""
-Validate a key
-"""
