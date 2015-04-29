@@ -8,10 +8,17 @@ from flask.ext.restful import Api, Resource, reqparse
 app = Flask(__name__)
 auth = HTTPBasicAuth()
 
+##Different examples of what will be stored in MongoDB, to be updated,m aybe with embeded documents
+Users=[
+	{
+		"id":1,
+		"name":"Thomas"
+	}
+]
 keys = [
 
 	{
-		"User_id":1,
+		"user_id":1,
 		"public_key":"123456789", #is th epassword
 		"private_key":"123456789" #is the hashing salt
 	}
@@ -28,50 +35,82 @@ Servers=[
 	}
 
 ]
-Command_Routines = [
+Routines = [
 	{
 		"id":1,
-		"commands":[
-			"cd {{app}} ",
-			"composer update"
-		],
+		"commands":[1,2],
+		"status_id":1
 	},
 	{
 		"id":2,
-		"commands":[
-			"cd {{app}} ",
-			"composer install"
-		],
+		"commands":[1,3],
+		"status_id":2
+	}
+]
+Commands=[
+	{
+		"id":1,
+		"action":"cd {{app}}"
+	},
+	{
+		"id":2,
+		"action":"composer update"
+	},
+	{
+		"id":3,
+		"action":"composer install"
+	},
+	{
+		"id":4,
+		"action":"rm -rf {{app}}/storage"
+	}
+]
+Statuses=[
+	{
+		"id":1,
+		"name":"starting"
+	},
+	{
+		"id":2,
+		"name":"processing"
+	},
+	{
+		"id":3,
+		"name":"error"
+	},
+	{
+		"id":4,
+		"name":"finished without error"
+	},
+	{
+		"id":5,
+		"name":"finished with error"
 	}
 ]
 Command_Routines_Status=[
 	
 	{
-		"server_id":1, # key
-		"routine_id":1, # key
-		"commands":[
-			{
-				"command_id": 1,
-				"status":"finished",
-				"done":True,
-				"output":"",
-				"started_at":"28.04.2015 00.00.00",
-				"finished_at":"28.04.2015 00.00.10",
-				"tries":1
-			},
-			{
-				"command_id": 2,
-				"status":"processing",
-				"done":False,
-				"output":"",
-				"started_at":"28.04.2015 00.00.00",
-				"finished_at":"",
-				"tries":1
-			}
-		],
-		"status":"processing"
-		
+		"server_id":1,
+		"routine_id":1,
+		"commands_id":1,
+		"status":5,
+		"done":True,
+		"output":"",
+		"started_at":"28.04.2015 00.00.00",
+		"finished_at":"28.04.2015 00.00.10",
+		"tries":1
 	},
+	{
+		"server_id":1,
+		"routine_id":1,
+		"commands_id":,2
+		"status":5,
+		"done":True,
+		"output":"",
+		"started_at":"28.04.2015 00.00.00",
+		"finished_at":"28.04.2015 00.00.10",
+		"tries":1
+	}
 
 ]
 class User:
@@ -86,8 +125,22 @@ class User:
 		return self.public_key
 	def getPrivateKey(self):
 		return self.private_key
-	def getRoutineStatus(self,id,server):
-		return next((item for item in my_list if item['server_id'] == server_id and item["routine_id"]==routine_id), None)["status"]
+	'''def getRoutineStatus(self,id,server):
+		return 
+	'''
+class Command(object):
+	"""docstring for Command"""
+	def __init__(self, arg):
+		super(Command, self).__init__()
+		self.arg = arg
+	def updateStatus(self,id,statusid):
+		c = next((item for item in Commands if item['id'] == id), None)
+		c["status_id"]=statusid
+		c.save()
+	def get(self,id):
+		return next((item for item in Commands if item['id'] == id), None)
+###############################################
+# To be changed with the public key erification
 @auth.verify_password
 def verify_pw(username, password):
     return call_custom_verify_function(username, password)
