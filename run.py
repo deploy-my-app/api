@@ -7,8 +7,8 @@ server = wsgiserver.CherryPyWSGIServer(('0.0.0.0', 5000), d)
 
 if __name__ == '__main__':
 	try:
-		print "Starting server, please check logs for more information /var/log/the-deployer/deployer-deamon.log"
+		print ("Starting server, please check logs for more information /var/log/the-deployer/deployer-deamon.log")
 		server.start()
 	except KeyboardInterrupt:
-		print "Stopping server"
+		print ("Stopping server")
 		server.stop()

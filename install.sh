@@ -7,3 +7,4 @@ pip install requests
 pip install flask-httpauth
 pip install pymongo
 pip install mongoengine
+pip install cherrypy
