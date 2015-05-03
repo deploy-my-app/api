@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# THIS FILE IS DEPRIECIATED BUTZ IS STILL USEFULL FOR DEVELOPPEMENT PURPOSES
 from flask import Flask, jsonify, abort, make_response, request
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.restful import Api, Resource, reqparse
