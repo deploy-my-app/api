@@ -1,0 +1,4 @@
+Map([<Rule '/api/v1.0/users' (HEAD, OPTIONS, GET) -> deployements_api.usermanager>,
+ <Rule '/static/<filename>' (HEAD, OPTIONS, GET) -> static>])
+Starting server, please check logs for more information /var/log/the-deployer/deployer-deamon.log
+Stopping server
