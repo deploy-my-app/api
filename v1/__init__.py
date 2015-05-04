@@ -14,15 +14,19 @@ def create_app():
 	from flask.ext.mongoengine import MongoEngine
 	from flask_debugtoolbar import DebugToolbarExtension
 	from v1.models import db
+	#start the app
 	app = Flask(__name__)
-
+	#Load up the config
 	#app.config.from_pyfile('config')
 	app.config["MONGODB_SETTINGS"]={
 		"db":"deploy"
 	}
 	app.config["SECRET_KEY"]="secretkey"
+	app.config["DEBUG_TB_ENABLED"]=True
+	#bootstrap the database
 	db.init_app(app)
-	auth = HTTPBasicAuth()
+	#bootstrap everything else
+	#auth = HTTPBasicAuth()
 	toolbar=DebugToolbarExtension(app)
 
 	from v1.routes import blueprint as DeployApi
@@ -30,3 +34,5 @@ def create_app():
 	
 	print app.url_map
 	return app
+if __name__ == '__main__':
+	create_app().run()

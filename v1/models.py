@@ -1,41 +1,43 @@
-from mongoengine.document import Document
+from mongoengine.document import Document, EmbeddedDocument
 from mongoengine.fields import *
 from flask.ext.mongoengine import MongoEngine
 
-db =MongoEngine()
+db= MongoEngine()
+class Key(db.EmbeddedDocument):
+	public_key 	= 	db.StringField( required=True )
+	private_key	= 	db.StringField( required=True )
 
-class User(Document):
-	username = StringField(required=True)
-	password = StringField(required=True)
+class User(db.Document):
+	username 	= 	db.StringField(required=True)
+	password 	= 	db.StringField(required=True)
+	keys 		=	db.ListField(EmbeddedDocumentField(Key))
 
-class Key(Document):
-	public_key = StringField( required=True, unique=True )
-	private_key = StringField( required=True, unique=True )
-	user = ReferenceField(User)
 
-class Command(Document):
-	action=StringField(required=True)
+class Command(db.Document):
+	action		=	db.StringField(required=True)
 
-class Status(Document):
-	name=StringField()
+class Status(db.Document):
+	name		=	db.StringField()
 
-class Routine(Document):
-	commands=ListField(ReferenceField(Command))
-	status = ReferenceField(Status)
-	done = BooleanField()
-class Server(Document):
-	name =StringField(required=True)
-	hostname=StringField(required=True)
-	ip=StringField(required=True)
-	user=ReferenceField(User)
+class Routine(db.Document):
+	name 		= 	db.StringField(required=True)
+	commands 	=	db.ListField(ReferenceField(Command))
+	status 		= 	db.ReferenceField(Status)
+	done 		= 	db.BooleanField()
 
-class CommandRoutineStatus(Document):
-	server=ReferenceField(Server)
-	routine=ReferenceField(Routine)
-	command=ReferenceField(Command)
-	status=ReferenceField(Status)
-	done=BooleanField()
-	created_at=DateTimeField()
-	finished_at=DateTimeField()
-	tries=IntField()
-	output=StringField()
+class Server(db.Document):
+	name 		=	db.StringField(required=True)
+	hostname	=	db.StringField(required=True)
+	ip 			=	db.StringField(required=True)
+	user 		= 	db.ReferenceField(User)
+
+class CommandRoutineStatus(db.Document):
+	server 		=	db.ReferenceField(Server)
+	routine 	=	db.ReferenceField(Routine)
+	command 	=	db.ReferenceField(Command)
+	status 		=	db.ReferenceField(Status)
+	done 		=	db.BooleanField()
+	created_at 	=	db.DateTimeField()
+	finished_at =	db.DateTimeField()
+	tries 		=	db.IntField()
+	output 		=	db.StringField()
