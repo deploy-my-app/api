@@ -11,11 +11,22 @@ import sys
 def create_app():
 	from flask import Flask, render_template
 	from flask.ext.httpauth import HTTPBasicAuth
-		
-
+	from flask.ext.mongoengine import MongoEngine
+	from flask_debugtoolbar import DebugToolbarExtension
+	from v1.models import db
 	app = Flask(__name__)
+
+	#app.config.from_pyfile('config')
+	app.config["MONGODB_SETTINGS"]={
+		"db":"deploy"
+	}
+	app.config["SECRET_KEY"]="secretkey"
+	db.init_app(app)
+	auth = HTTPBasicAuth()
+	toolbar=DebugToolbarExtension(app)
+
 	from v1.routes import blueprint as DeployApi
 	app.register_blueprint(DeployApi)
-	auth = HTTPBasicAuth()
+	
 	print app.url_map
 	return app

@@ -15,4 +15,6 @@ pip install requests
 pip install flask-httpauth
 pip install pymongo
 pip install mongoengine
+pip install flask-mongoengine
 pip install cherrypy
+pip install flask-debugtoolbar

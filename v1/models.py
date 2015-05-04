@@ -1,28 +1,41 @@
-from mongoengine import *
+from mongoengine.document import Document
+from mongoengine.fields import *
+from flask.ext.mongoengine import MongoEngine
 
-class User:
-  def __init__(self):
-    self.id=1
-    self.name="Thomas"
-    self.password_hash="Hash this password later"
-    self.private_key="123456789"
-    self.public_key="987654321"
+db =MongoEngine()
 
-  def getPubKey(self):
-    return self.public_key
-  def getPrivateKey(self):
-    return self.private_key
-  '''def getRoutineStatus(self,id,server):
-    return 
-  '''
-class Command(object):
-  """docstring for Command"""
-  def __init__(self, arg):
-    super(Command, self).__init__()
-    self.arg = arg
-  def updateStatus(self,id,statusid):
-    c = next((item for item in Commands if item['id'] == id), None)
-    c["status_id"]=statusid
-    c.save()
-  def get(self,id):
-    return next((item for item in Commands if item['id'] == id), None)
+class User(Document):
+	username = StringField(required=True)
+	password = StringField(required=True)
+
+class Key(Document):
+	public_key = StringField( required=True, unique=True )
+	private_key = StringField( required=True, unique=True )
+	user = ReferenceField(User)
+
+class Command(Document):
+	action=StringField(required=True)
+
+class Status(Document):
+	name=StringField()
+
+class Routine(Document):
+	commands=ListField(ReferenceField(Command))
+	status = ReferenceField(Status)
+	done = BooleanField()
+class Server(Document):
+	name =StringField(required=True)
+	hostname=StringField(required=True)
+	ip=StringField(required=True)
+	user=ReferenceField(User)
+
+class CommandRoutineStatus(Document):
+	server=ReferenceField(Server)
+	routine=ReferenceField(Routine)
+	command=ReferenceField(Command)
+	status=ReferenceField(Status)
+	done=BooleanField()
+	created_at=DateTimeField()
+	finished_at=DateTimeField()
+	tries=IntField()
+	output=StringField()

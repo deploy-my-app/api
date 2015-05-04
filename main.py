@@ -89,6 +89,7 @@ Statuses=[
 Command_Routines_Status=[
 
   {
+    "id":1,
     "server_id":1,
     "routine_id":1,
     "commands_id":1,
@@ -97,9 +98,11 @@ Command_Routines_Status=[
     "output":"",
     "started_at":"28.04.2015 00.00.00",
     "finished_at":"28.04.2015 00.00.10",
-    "tries":1
+    "tries":1,
+    "created_at":"28.04.2015 00.00.00"
   },
   {
+    "id":1,
     "server_id":1,
     "routine_id":1,
     "commands_id":2,
@@ -108,7 +111,8 @@ Command_Routines_Status=[
     "output":"",
     "started_at":"28.04.2015 00.00.00",
     "finished_at":"28.04.2015 00.00.10",
-    "tries":1
+    "tries":1,
+    "created_at":"28.04.2015 00.00.00"
   }
 
 ]
