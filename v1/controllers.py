@@ -13,7 +13,7 @@ from v1.decorators import *
 
 
 #Manage all users
-class UserManager(Resource):
+class UserListManager(Resource):
   def __init__(self):
     parser=reqparse.RequestParser()
     parser.add_argument("username",type=str,required=True)
@@ -21,7 +21,7 @@ class UserManager(Resource):
     self.parser=parser
     self.users=User
   def get(self):
-    return User.objects.only(*["username","id","keys"]).select_related().to_json()
+    
     d=[]
     for user in User.objects:
       d.append( {"id":str(user["id"]),"username":user["username"]} )
@@ -33,7 +33,7 @@ class UserManager(Resource):
       return {"id":str(user["id"])},200
     return {"error":"Error creating user"}
 #Manage a specific User
-class UserListManager(Resource):
+class UserManager(Resource):
   """docstring for UserListManager"""
   def __init__(self):
     self.user=User
@@ -44,9 +44,9 @@ class UserListManager(Resource):
         
         field=request.args.get('field')
         if field in User._fields:
-
           return {field:str(user[field])}
-        raise Exception("The field wasn't found in the user model")
+        else:
+          raise Exception("The field wasn't found in the user model")
       
       return {"id":str(user["id"]),"username":user["username"]}
     except Exception as e:
@@ -72,7 +72,7 @@ class CommandStatusManager(Resource):
     pass
 
 
-class RoutineManager(Resource):
+class RoutineListManager(Resource):
   """docstring for RoutineManager"""
   def __init__(self):
     parser=reqparse.RequestParser()
@@ -81,7 +81,7 @@ class RoutineManager(Resource):
     return Routine.objects.all().to_json()
   def post(self):
     pass
-class RoutineListManager(Resource):
+class RoutineManager(Resource):
   """docstring for RoutineListManager"""
   def __init__(self):
     pass
