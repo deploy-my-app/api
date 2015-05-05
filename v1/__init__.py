@@ -17,6 +17,9 @@ def create_app():
 	#start the app
 	app = Flask(__name__)
 	#Load up the config
+	app.debug=True
+	app.port="8080"
+	app.host="0.0.0.0"
 	#app.config.from_pyfile('config')
 	app.config["MONGODB_SETTINGS"]={
 		"db":"deploy"

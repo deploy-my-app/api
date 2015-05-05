@@ -57,7 +57,7 @@ class UserManager(Resource):
 
 
 #The holy grail class that will run the core of this huge mess
-class CommandStatusManager(Resource):
+class JobManager(Resource):
   """docstring for CommandStatusManager"""
   def __init__(self):
     pass
@@ -69,25 +69,37 @@ class CommandStatusManager(Resource):
     pass
   #updates a command status
   def put(self,deploy_id,server_id,command_id):
-    pass
+    if request.args.get('key') and request.args.get('value'):
+      key=request.args.get('status')
+      value=request.args.get('value')
+      crs=CommandDeployStatus.objects(id=deploy_id)
+
+
+
+
+
 
 
 class RoutineListManager(Resource):
   """docstring for RoutineManager"""
   def __init__(self):
-    parser=reqparse.RequestParser()
-    parser.add_argument("name")
+    pass
   def get(self):
     return Routine.objects.all().to_json()
   def post(self):
-    pass
+    parser=reqparse.RequestParser()
+    parser.add_argument("name",type=str,required=True)
+    parser.add_argument("user_id",type=str,required=True)
+    args=parser.parse_args()
+    user=User.objects(id=args["user_id"]).get_or_404()
+    routeine=Routine(name=args["name"],user=user)
 class RoutineManager(Resource):
   """docstring for RoutineListManager"""
   def __init__(self):
     pass
   def get(self,routine_id):
     pass
-  def patch(self,routine_id):
+  def put(self,routine_id):
     pass
 
 
@@ -99,6 +111,22 @@ class DeployListManager(Resource):
   """docstring for DeployListManager"""
   def __init__(self):
     pass
+  def get(self):
+    return Deploy.objects.to_json()
+  def post(self):
+    parser=reqparse.RequestParser()
+    parser.add_argument("deploy_id",type=str)
+    parser.add_argument("user_id",type=str,required=True)
+    args=parser.parse_args()
+    
+    user = User.objects(id=args["user_id"]).get_or_404()
+    if args["server_id"]:
+      servers = Server.objects(id=request.args.get("server_id"),user=user)
+    else:
+      servers = Server.objects(user=user)
+    for s in servers:
+      print s.hostname
+
 
 
 
@@ -109,19 +137,37 @@ class CommandManager(Resource):
 class CommandListManager(Resource):
   """docstring for CommandListManager"""
   def __init__(self):
-    passg
-
-
+    pass
+  def get(self):
+    parser=reqparse.RequestParser()
+    parser.add_argument("user_id",type=str,required=True)
+    parser.add_argument("action",type=str,required=True)
+    args=parser.parse_args()
 
 class ServerManager(Resource):
-      """docstring for ServerManager"""
-      def __init__(self):
-        pass
+  """docstring for ServerManager"""
+  def __init__(self):
+    pass
+  def get(self,server_id):
+    return Server.objects(id=server_id).get_or_404()
+     
 class ServerListManager(Resource):
   """docstring for ServerListManager"""
   def __init__(self):
     pass
-
+  def post(self):
+    parser=reqparse.RequestParser()
+    parser.add_argument("hostname",type=str,required=True)
+    parser.add_argument("ip",type=str,required=True)
+    parser.add_argument("name",type=str,required=True)
+    parser.add_argument("user_id",type=str,required=True)
+    args=parser.parse_args()
+    user=User.objects(id=args["user_id"]).get_or_404()
+    server = Server(hostname=args["hostname"],ip=args["ip"],name=args["name"],user=user).save()
+    if server:
+      return {"message":"server created","id":str(server.id)},201
+    else:
+      return {"message":"Couldn't create server"},400
 
 
 class StatusManager(Resource):

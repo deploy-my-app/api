@@ -10,6 +10,7 @@ from v1.controllers import *
 
 blueprint = Blueprint('deployements_api',__name__,url_prefix='/api/v1.0')
 api = Api()
+api.catch_all_404s=True
 api.init_app(blueprint)
 
 
@@ -17,7 +18,7 @@ api.add_resource(UserListManager,'/users')
 api.add_resource(UserManager,'/users/<user_id>')
 
 #this will only be used to update the status of a specific deployement on a specific server for a specific command
-api.add_resource(CommandStatusManager,'/deploys/<deploy_id>/servers/<server_id>/commands/<command_id>/status')
+api.add_resource(JobManager,'/job/<job_id>')
 
 #These routes are genral purpos routes for anybody
 api.add_resource(RoutineListManager,'/routines')
