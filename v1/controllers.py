@@ -62,17 +62,28 @@ class JobManager(Resource):
   def __init__(self):
     pass
   #retrieves all the details for a command status
-  def get(self,deploy_id,server_id,command_id):
+  def get(self,job_id):
     pass
   #creates a new command status
-  def post(self,deploy_id,server_id,command_id):
+  def post(self,job_id):
     pass
   #updates a command status
-  def put(self,deploy_id,server_id,command_id):
-    if request.args.get('key') and request.args.get('value'):
-      key=request.args.get('status')
-      value=request.args.get('value')
-      crs=CommandDeployStatus.objects(id=deploy_id)
+  def put(self,job_id):
+    parser=reqparse.RequestParser()
+    parser.add_argument("key",type=str,required=True)
+    parser.add_argument("value",type=str,required=True)
+    args=parser.parse_args()
+
+    key=args['key']
+    value=args['value']
+    job=Job.objects(id=job_id).first_or_404()
+    if key == "status":
+      value=Status.objects(id=value).first_or_404()
+    elif key == "server":
+      value = Server.objects(id=value).first_or_404()
+    elif key == "deployement":
+      value = Deploy.objects(id=value).first_or_404()
+    job[key]=value
 
 
 

@@ -36,7 +36,7 @@ api.add_resource(ServerManager,'/server/<server_id>')
 api.add_resource(StatusListManager,'/status')
 api.add_resource(StatusManager,'/status/<status_id>')
 
-#TODO implement specific authentification mecainismes
+#TODO implement specific authentification mecainismes maybe better in laravel or what not
 #these routes will only authorize post requests for now
 api.add_resource(AuthBasicManager,'/auth/basic') #specific authentification manager
 api.add_resource(AuthKeyManager,'/auth/key') #specific authentification manager
