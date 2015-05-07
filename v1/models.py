@@ -24,7 +24,7 @@ class Status(db.Document):
 
 class Routine(db.Document):
 	name 				=	 	db.StringField(required=True)
-	commands 			=		db.ListField(ReferenceField(Command))
+	commands 			=		db.StringField(required=True) # TODO db.ListField(ReferenceField(Command))
 
 class Server(db.Document):
 	name 				=		db.StringField(required=True)

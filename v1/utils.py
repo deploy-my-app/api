@@ -16,9 +16,8 @@ class JobStack(object):
 	def update(self,server=None):
 		for srv in self.servers:
 			if len(srv.jobs.pending):
-				for s in self.servers:
-					if s.jobs.current 
-
+				
+queue=[
 {
 	"Server_id":"id",
 	"jobs":{
@@ -34,4 +33,23 @@ class JobStack(object):
 		}
 	}
 	
+},
+{
+	"Server_id":"id2",
+	"jobs":{
+		"pending":{
+			"cd {{app}}",
+			"composer update"
+		},
+		"current":{
+			"composer install"
+		},
+		"done":{
+			"rm -rf {{app}}/cache/"
+		}
+	}
+	
 }
+
+
+]
