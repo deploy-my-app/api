@@ -54,18 +54,7 @@ class UserManager(Resource):
     
     
     
-@app.route("/update/job/<job_id>")
-def update_job(job_id):
-  if JobManager.servers[server_id].jobs.current.id==job_id:
-    JobManager.servers[server_id].jobs.done=job_id
-    if JobManager.servers[server_id].jobs.queue:
-      #TODO here we check if the job is finished on all other servers
-      finished=False
-      for srv in JobManager.servers:
-        pass
-      #now we pop the last job and put it as current job
-      JobManager.servers[server_id].jobs.current=JobManager.servers[server_id].jobs.queue.pop()
-      #TODO here we need to call the server
+
 
 #The holy grail class that will run the core of this huge mess
 class JobManager(Resource):
