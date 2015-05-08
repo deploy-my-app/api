@@ -31,6 +31,7 @@ class Server(db.Document):
 	hostname			=		db.StringField(required=True)
 	ip 					=		db.StringField(required=True)
 	user 				=	 	db.ReferenceField(User)
+	queue 				= 		db.StringField(required=True) #this queue is a string container the rpc_queue_"USER.ID"
 
 class Deploy(db.Document):
 	commit 				=	 	db.StringField()

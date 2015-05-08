@@ -23,3 +23,9 @@ to use the application in shell "sudo python shell.py"
 Use this for creating custom logins with Api Keys
 
 https://flask-login.readthedocs.org/en/latest/
+
+Use Celery for the deploymenet part, so that we can queue all the jobs for each server
+
+https://wiki.openstack.org/wiki/DistributedTaskManagement
+
+https://docs.google.com/presentation/d/185sirdtEzVm59oGAivd7vILeffn6ZeXA22b6PXS1vM4/edit#slide=id.i154

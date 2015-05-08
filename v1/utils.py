@@ -10,9 +10,9 @@ def boot(ClassName):
   return c
 class JobStack(object):
 	"""docstring for JobStack"""
-	def __init__(self, server):
+	def __init__(self, commands, server):
 		self.server=server
-		self.jobs=Jobs.objects(server=server).get_or_404()
+		self.commands=commands.split('\n')
 	def update(self,server=None):
 		for srv in self.servers:
 			if len(srv.jobs.pending):
