@@ -29,3 +29,7 @@ Use Celery for the deploymenet part, so that we can queue all the jobs for each 
 https://wiki.openstack.org/wiki/DistributedTaskManagement
 
 https://docs.google.com/presentation/d/185sirdtEzVm59oGAivd7vILeffn6ZeXA22b6PXS1vM4/edit#slide=id.i154
+
+To install
+
+http://cx-freeze.readthedocs.org/en/latest/distutils.html
