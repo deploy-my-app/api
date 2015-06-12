@@ -13,3 +13,18 @@ FOREACH DEPLOYS
 			ELSE_IF DEPLOY NOT SYNCHRONOUS
 				ping server.ip?command=COMMAND&ping_back=API_URL
 """
+import request,os,sys
+
+class Worker:
+	def __init__(self,db,deploy,queue='deploy_queue'):
+		self.queue=queue
+		self.db=db
+		self.deploy=deploy
+	def runCommand(self,url):
+		r=request.post(url)
+	def run(self):
+		d=self.deploy
+		for r in d.routines:
+			for c in r.commands:
+				if d.isSyncron:
+					if c not in self.db.running_commands.find(command=c)
