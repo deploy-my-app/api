@@ -22,7 +22,9 @@ def create_app():
 	app.host="0.0.0.0"
 	#app.config.from_pyfile('config')
 	app.config["MONGODB_SETTINGS"]={
-		"db":"deploy"
+		"db":"deploy",
+		"host":"0.0.0.0",
+		"port":27017
 	}
 	app.config["SECRET_KEY"]="secretkey"
 	app.config["DEBUG_TB_ENABLED"]=True
