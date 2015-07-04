@@ -27,4 +27,5 @@ class Worker:
 		for r in d.routines:
 			for c in r.commands:
 				if d.isSyncron:
-					if c not in self.db.running_commands.find(command=c)
+					if c not in self.db.running_commands.find(command=c):
+						
